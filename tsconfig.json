@@ -1,0 +1,15 @@
+{
+  "include": ["src/**/*", "src/**/*.json", "declaration.d.ts"],
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "target": "ES6",
+    "strict": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+  }
+}

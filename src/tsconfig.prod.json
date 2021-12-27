@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["__example__"],
+  "compilerOptions": {
+    "emitDeclarationOnly": true
+  }
+}
