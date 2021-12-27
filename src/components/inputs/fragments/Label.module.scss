@@ -1,0 +1,16 @@
+@use '../../../styles/variables';
+
+.label {
+  display: block;
+  margin-bottom: variables.$label-mb;
+  color: variables.$label-color;
+  font-weight: variables.$label-fw;
+
+  &_hasError {
+    color: variables.$col-error;
+  }
+
+  &_isDisabled {
+    color: variables.$col-text_disabled;
+  }
+}

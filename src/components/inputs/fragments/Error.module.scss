@@ -1,0 +1,6 @@
+@use '../../../styles/variables';
+
+.error {
+  color: variables.$col-error;
+  margin-top: variables.$error-mt;
+}

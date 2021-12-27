@@ -1,0 +1,36 @@
+// TODO: Use hardcoded default values and let them be overridden for custom use
+@use 'shared/styles/colors';
+@use 'shared/styles/fragments';
+@use 'shared/styles/font';
+@use 'shared/styles/sizing';
+
+// General
+
+$font-size: font.$size;
+
+$border-radius: fragments.$border-radius;
+
+$col-error: colors.$error;
+$col-text: colors.$text;
+$col-text_disabled: colors.$text-rd-1;
+$col-placeholder: colors.$text-rd-2;
+$col-border: colors.$dominant-rd-3;
+$col-border_error: $col-error;
+$col-border_focus: colors.$complement;
+$col-border_disabled: colors.$dominant-rd-1;
+$col-bg: colors.$dominant-rd-2;
+$col-bg_error: colors.$error-rd-1;
+$col-bg_focus: colors.$dominant;
+$col-bg_disabled: colors.$dominant-rd-1;
+
+// Element-Specific
+
+$label-color: colors.$complement;
+$label-fw: font.$weight-regular;
+$label-mb: #{sizing.$mpl-sm-3}em;
+
+$textInput-padding: #{sizing.$mpl-sm-2}em #{sizing.$mpl-sm-3}em;
+
+$wrap-mt: 1em;
+
+$error-mt: #{sizing.$mpl-sm-6}em;

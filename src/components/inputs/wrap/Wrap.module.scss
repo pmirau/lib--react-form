@@ -1,0 +1,9 @@
+@use '../../../styles/variables';
+
+.wrap {
+  font-size: variables.$font-size;
+
+  & + & {
+    margin-top: variables.$wrap-mt;
+  }
+}

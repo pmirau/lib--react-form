@@ -1,0 +1,34 @@
+@use '../../../styles/variables';
+
+.input {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid variables.$col-border;
+  border-radius: variables.$border-radius;
+  background: variables.$col-bg;
+  padding: variables.$textInput-padding;
+  color: variables.$col-text;
+
+  &:focus {
+    outline: none;
+    background: variables.$col-bg_focus;
+    border-color: variables.$col-border_focus;
+  }
+
+  &::placeholder {
+    color: variables.$col-placeholder;
+  }
+
+  &_hasError {
+    color: variables.$col-error;
+    border-color: variables.$col-border_error;
+    background-color: variables.$col-bg_error;
+  }
+
+  &_isDisabled {
+    background-color: variables.$col-bg_disabled;
+    border-color: variables.$col-border_disabled;
+    cursor: not-allowed;
+  }
+}
