@@ -1,8 +1,13 @@
-import PropTypes from 'prop-types';
-import Wrap from './wrap/Wrap';
-import Label from './fragments/Label';
-import InputCore from './core/Input';
-import Error from './fragments/Error';
+import React from 'react'
+import Wrap from './wrap/Wrap'
+import Label from './fragments/Label'
+import InputCore from './core/Input'
+import Error from './fragments/Error'
+import { InputProps as InputCoreProps } from './core/Input'
+
+export interface InputProps extends InputCoreProps {
+  label?: string
+}
 
 const Input = ({
   type = 'text',
@@ -15,7 +20,7 @@ const Input = ({
   onChange,
   onBlur,
   label,
-}) => {
+}: InputProps) => {
   return (
     <Wrap>
       {label && <Label htmlFor={id} hasError={!!error} disabled={disabled}>{label}</Label>}
@@ -30,14 +35,9 @@ const Input = ({
         onChange={onChange}
         onBlur={onBlur}
       />
-      {error && <Error>{error}</Error>}
+      {error && typeof error === 'string' && <Error>{error}</Error>}
     </Wrap>
-  );
-};
+  )
+}
 
-Input.propTypes = {
-  ...InputCore.propTypes,
-  label: PropTypes.string,
-};
-
-export default Input;
+export default Input

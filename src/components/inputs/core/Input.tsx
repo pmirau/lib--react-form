@@ -1,0 +1,51 @@
+import React, { ChangeEventHandler, FocusEventHandler } from 'react'
+import cn from 'classnames'
+import styles from './Input.module.scss'
+import { InputType, InputValueType } from '../../../types'
+
+export interface InputProps {
+  id: string
+  onChange: ChangeEventHandler<HTMLInputElement>
+  onBlur: FocusEventHandler<HTMLInputElement>
+  type?: InputType
+  autoComplete?: string
+  value?: InputValueType[keyof InputValueType]
+  placeholder?: InputValueType[keyof InputValueType]
+  error?: string | boolean
+  disabled?: boolean
+}
+
+const Input = ({
+  type = 'text',
+  autoComplete = 'on',
+  id,
+  value,
+  placeholder,
+  error,
+  disabled,
+  onChange,
+  onBlur,
+}: InputProps) => {
+  return (
+    <input
+      className={cn(
+        styles.input,
+        {
+          [styles.input_hasError]: !!error,
+          [styles.input_isDisabled]: disabled,
+        },
+      )}
+      id={id}
+      type={type}
+      name={id}
+      value={value}
+      placeholder={placeholder}
+      autoComplete={autoComplete}
+      disabled={disabled}
+      onChange={onChange}
+      onBlur={onBlur}
+    />
+  )
+}
+
+export default Input
