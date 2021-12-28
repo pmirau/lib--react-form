@@ -1,7 +1,18 @@
-import { useReducer } from 'react';
-import formReducer from '../reducer/formReducer';
-import { DEFAULT_VALIDATOR, DEFAULT_VALUE, TYPE } from '../constants/inputs';
+import { useReducer, ChangeEvent } from 'react'
+import formReducer from '../reducer/formReducer'
+import { DEFAULT_VALIDATOR, DEFAULT_VALUE } from '../constants/inputs'
+import { ValidationParams, Validator, InputType, InputValueType } from '../types'
+
 // errors: Either `errors.key: <falsy>` or key not defined for non-error
+
+interface RegisterOptions {
+  type?: InputType
+  initialValue?: InputValueType[keyof InputValueType]
+  touched?: boolean
+  changed?: boolean
+  validation?: ValidationParams
+  validationSchema?: Validator
+}
 
 export default function useForm() {
   // noinspection JSCheckFunctionSignatures
@@ -12,81 +23,77 @@ export default function useForm() {
     types: {},
     touched: {},
     changed: {},
-    validator: {},
+    validators: {},
     errors: {},
     formHasChanged: false,
     formIsValid: true,
-  });
+  })
 
-  const unregister = (id) => {
+  const unregister = (id: string): void => {
     // noinspection JSCheckFunctionSignatures
-    dispatch({ type: 'unregister', payload: { id } });
-  };
+    dispatch({ type: 'unregister', payload: { id } })
+  }
 
   /**
    * Change the value of a field
-   * @param {string} id
-   * @param {*} value
    */
-  const changeValue = (id, value) => {
+  const changeValue = (id: string, value: InputValueType[keyof InputValueType]): void => {
     // noinspection JSCheckFunctionSignatures
     dispatch({
       type: 'changeValue',
       payload: { id, value },
-    });
-  };
+    })
+  }
 
   /**
    * Touch a field
-   * @param {string} id
    */
-  const touch = (id) => {
+  const touch = (id: string): void => {
     // noinspection JSCheckFunctionSignatures
     dispatch({
       type: 'touch',
       payload: { id },
-    });
-  };
+    })
+  }
 
-  const onChange = (event) => {
-    const { id } = event.target;
-    let value;
+  const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { id } = event.target
+    let value
 
     switch (form.types[id]) {
       default:
-        value = event.target.value;
+        value = event.target.value
     }
 
-    changeValue(id, value);
-  };
+    changeValue(id, value)
+  }
 
-  const onBlur = (event) => {
-    const { id } = event.target;
-    touch(id);
-  };
+  const onBlur = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { id } = event.target
+    touch(id)
+  }
 
   /**
    * Add a field
    * @param id
-   * @param {any} [initialValue]
-   * @param {TYPE} [type=text] - input type
-   * @param {boolean} [touched=false] - set 'touched' prop
-   * @param {boolean} [changed=false] - set 'changed' prop
-   * @param {ValidationParams} [validation] - plain validation params
-   * @param {Validator} [validationSchema] - JOI validation schema. Defaults to respective type
-   *   default
+   * @param [initialValue]
+   * @param [type=text] - input type
+   * @param [touched=false] - set 'touched' prop
+   * @param [changed=false] - set 'changed' prop
+   * @param [validation] - plain validation params
+   * @param [validationSchema] - JOI validation schema. Defaults to respective type default
    * @throws when field with id already exists
    */
   const register = (
-    id,
+    id: string,
     {
-      type = TYPE.text,
+      type = 'text',
       initialValue = DEFAULT_VALUE[type],
       touched = false,
       changed = false,
       validation = {},
       validationSchema = DEFAULT_VALIDATOR[type],
-    } = {},
+    }: RegisterOptions = {},
   ) => {
     if (!form.keys.includes(id)) {
       // noinspection JSCheckFunctionSignatures
@@ -101,7 +108,7 @@ export default function useForm() {
           validation,
           validationSchema,
         },
-      });
+      })
     }
 
     return {
@@ -111,8 +118,8 @@ export default function useForm() {
       type,
       onChange,
       onBlur,
-    };
-  };
+    }
+  }
 
   return {
     form,
@@ -120,5 +127,5 @@ export default function useForm() {
     unregister,
     changeValue,
     touch,
-  };
+  }
 }

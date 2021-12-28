@@ -1,7 +1,25 @@
-import { assembleValidator, validateField } from '../validator';
-import { hasSome, isEqual, removePropFromObject } from '../utils/formReducer';
+import { assembleValidator, validateField } from '../validator'
+import { hasSome, isEqual, removePropFromObject } from '../utils/formReducer'
+import { InputType, InputValueType, ValidationParams, Validator, Form } from '../types'
 
-export default function formReducer(state, action) {
+interface Payload {
+  id: string
+  type: InputType
+  initialValue: InputValueType[keyof InputValueType]
+  value: InputValueType[keyof InputValueType]
+  touched: boolean
+  changed: boolean
+  validation: ValidationParams
+  validationSchema: Validator
+}
+
+type ActionType =
+  | { type: "register"; payload: Omit<Payload, 'value'> }
+  | { type: "unregister"; payload: Pick<Payload, 'id'> }
+  | { type: "changeValue"; payload: Pick<Payload, 'id' | 'value'> }
+  | { type: "touch"; payload: Pick<Payload, 'id'> }
+
+export default function formReducer(state: Form, action: ActionType): Form {
   switch (action.type) {
     case 'register': {
       const {
@@ -12,14 +30,14 @@ export default function formReducer(state, action) {
         changed,
         validation,
         validationSchema,
-      } = action.payload;
+      } = action.payload
 
       if (state.keys.includes(id)) {
-        throw new Error(`A field with the id '${id}' already exists`);
+        throw new Error(`A field with the id '${id}' already exists`)
       }
 
-      const validator = assembleValidator(validationSchema, validation);
-      const error = validateField(validator, initialValue);
+      const validator = assembleValidator(validationSchema, validation)
+      const error = validateField(validator, initialValue)
 
       return {
         ...state,
@@ -44,8 +62,8 @@ export default function formReducer(state, action) {
           ...state.changed,
           [id]: changed,
         },
-        validator: {
-          ...state.validator,
+        validators: {
+          ...state.validators,
           [id]: validator,
         },
         errors: {
@@ -54,14 +72,14 @@ export default function formReducer(state, action) {
         },
         formHasChanged: changed || state.formHasChanged,
         formIsValid: !error && state.formIsValid,
-      };
+      }
     }
 
     case 'unregister': {
-      const { id } = action.payload;
+      const { id } = action.payload
 
-      const sanitizedErrors = removePropFromObject(id, state.errors);
-      const sanitizedChanged = removePropFromObject(id, state.changed);
+      const sanitizedErrors = removePropFromObject(id, state.errors)
+      const sanitizedChanged = removePropFromObject(id, state.changed)
 
       return {
         keys: state.keys.filter((key) => key !== id),
@@ -69,25 +87,25 @@ export default function formReducer(state, action) {
         values: removePropFromObject(id, state.values),
         types: removePropFromObject(id, state.types),
         touched: removePropFromObject(id, state.touched),
-        validator: removePropFromObject(id, state.validator),
+        validators: removePropFromObject(id, state.validators),
         changed: sanitizedChanged,
         errors: sanitizedErrors,
         formIsValid: state.formIsValid || !hasSome(sanitizedErrors),
         formHasChanged: !state.formHasChanged ? false : hasSome(sanitizedChanged),
-      };
+      }
     }
 
     case 'changeValue': {
-      const { id, value } = action.payload;
+      const { id, value } = action.payload
 
       if (!state.keys.includes(id)) {
-        throw new Error(`A field with the id '${id}' does not exist`);
+        throw new Error(`A field with the id '${id}' does not exist`)
       }
 
-      const error = validateField(state.validator[id], value);
-      const hasChanged = !isEqual(state.initialValues[id], value);
-      const updatedErrors = { ...state.errors, [id]: error };
-      const updatedChanged = { ...state.changed, [id]: hasChanged };
+      const error = validateField(state.validators[id], value)
+      const hasChanged = !isEqual(state.initialValues[id], value)
+      const updatedErrors = { ...state.errors, [id]: error }
+      const updatedChanged = { ...state.changed, [id]: hasChanged }
 
       return {
         ...state,
@@ -103,11 +121,11 @@ export default function formReducer(state, action) {
         formHasChanged: (hasChanged || !state.formHasChanged)
           ? hasChanged
           : hasSome(updatedChanged),
-      };
+      }
     }
 
     case 'touch': {
-      const { id } = action.payload;
+      const { id } = action.payload
 
       return {
         ...state,
@@ -115,10 +133,10 @@ export default function formReducer(state, action) {
           ...state.touched,
           [id]: true,
         },
-      };
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }
