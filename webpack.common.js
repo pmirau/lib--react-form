@@ -26,6 +26,11 @@ module.exports = {
     ],
   },
   externals: {
+    'classnames': 'classnames',
+    'deep-equal': 'deep-equal',
+    'joi': 'joi',
+    'prop-types': 'prop-types',
     'react': 'react',
+    'react-test-renderer': 'react-test-renderer',
   },
 };

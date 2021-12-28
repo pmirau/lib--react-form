@@ -145,6 +145,11 @@ Start the description with a verb if possible.
 Also add `react` as a dev-dependency alongside the peer-dependency in the library. 
 Because otherwise NextJS throws the error `Module not found: Can't resolve 'react'`
 
+### Define dependencies as externals
+
+Define dependencies, which should be added while consuming the library (ie. not bundled with 
+main.js) in webpack-externals.
+
 ## Library Guidelines
 
 ### CSS
