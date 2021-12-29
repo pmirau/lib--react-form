@@ -11,7 +11,7 @@ export interface InputProps {
   autoComplete?: string
   value?: InputValueType[keyof InputValueType]
   placeholder?: InputValueType[keyof InputValueType]
-  error?: string | boolean
+  error?: string | boolean | null
   disabled?: boolean
 }
 
