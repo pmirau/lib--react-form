@@ -1,31 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import useForm from '../hooks/useForm';
-import data from './data';
-import { TYPE } from '../constants/inputs';
-import InputSelector from '../components/inputs/InputSelector';
+import useForm from '../../hooks/useForm';
+import textData from '../data/inputs/text.json';
+import numberData from '../data/inputs/number.json';
+import InputSelector from '../../components/inputs/InputSelector';
+import { InputType } from '../../types'
+import styles from './InputOverview.module.scss'
 
-const Example = props => {
-  const { form, register } = useForm();
+const data = [textData, numberData]
+
+const InputOverview = () => {
+  const { register } = useForm();
 
   return (
-    <div>
+    <div className={styles.inputOverview}>
       <h1>Input Examples</h1>
       {data.map((typeGroup) => (
-        <React.Fragment key={typeGroup.type}>
+        <React.Fragment key={typeGroup.id}>
           <h2>{typeGroup.title}</h2>
           <div>
             {typeGroup.inputs.map(({
               // component: Component,
               id,
+              type,
               rest,
               registerProps,
             }) => (
               <InputSelector
                 key={id}
-                inputType={typeGroup.type}
                 {...register(id, {
-                  type: typeGroup.type,
+                  type: type as InputType,
                   ...registerProps,
                 })}
                 {...rest}
@@ -35,11 +38,7 @@ const Example = props => {
         </React.Fragment>
       ))}
     </div>
-  );
+  )
 };
 
-Example.propTypes = {
-
-};
-
-export default Example;
+export default InputOverview;
