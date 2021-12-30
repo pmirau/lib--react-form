@@ -1,11 +1,11 @@
 import React from 'react'
 import Wrap from './wrap/Wrap'
 import Label from './fragments/Label'
-import InputCore from './core/Input'
 import Error from './fragments/Error'
-import { InputProps as InputCoreProps } from './core/Input'
+import InputCore, { InputProps as InputCoreProps } from './core/Input'
 
-export interface InputProps extends InputCoreProps {
+export interface InputProps extends Omit<InputCoreProps, 'hasError'> {
+  error?: string | null
   label?: string
 }
 
@@ -30,12 +30,12 @@ const Input = ({
         value={value}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        error={error}
+        hasError={!!error}
         disabled={disabled}
         onChange={onChange}
         onBlur={onBlur}
       />
-      {error && typeof error === 'string' && <Error>{error}</Error>}
+      {error && <Error>{error}</Error>}
     </Wrap>
   )
 }

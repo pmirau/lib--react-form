@@ -7,12 +7,12 @@ export interface InputProps {
   id: string
   onChange: ChangeEventHandler<HTMLInputElement>
   onBlur: FocusEventHandler<HTMLInputElement>
-  type?: InputType
-  autoComplete?: string
-  value?: InputValueType[keyof InputValueType]
-  placeholder?: InputValueType[keyof InputValueType]
-  error?: string | boolean | null
   disabled?: boolean
+  hasError?: boolean
+  type: Extract<InputType, 'text' | 'number' >
+  autoComplete?: string
+  value?: InputValueType['text' | 'number']
+  placeholder?: InputValueType['text' | 'number']
 }
 
 const Input = ({
@@ -21,7 +21,7 @@ const Input = ({
   id,
   value,
   placeholder,
-  error,
+  hasError,
   disabled,
   onChange,
   onBlur,
@@ -31,7 +31,7 @@ const Input = ({
       className={cn(
         styles.input,
         {
-          [styles.input_hasError]: !!error,
+          [styles.input_hasError]: hasError,
           [styles.input_isDisabled]: disabled,
         },
       )}

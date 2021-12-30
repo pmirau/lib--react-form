@@ -1,15 +1,20 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import cn from 'classnames'
 import styles from './Label.module.scss'
 
 interface LabelProps {
   htmlFor: string
-  children: ReactNode
   hasError?: boolean
   disabled?: boolean
+  children: string
 }
 
-const Label = ({ htmlFor, hasError, disabled, children }: LabelProps) => {
+const Label = ({
+  htmlFor,
+  hasError,
+  disabled,
+  children,
+}: LabelProps) => {
   return (
     <label
       className={cn(
