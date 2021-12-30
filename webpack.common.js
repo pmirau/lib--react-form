@@ -13,18 +13,6 @@ module.exports = {
     clean: true,
   },
   plugins: [new MiniCssExtractPlugin()],
-  module: {
-    rules: [
-      {
-        test: /\.s?css$/i,
-        // See https://github.com/vercel/next.js/discussions/14060#discussioncomment-27889
-        // for the reason to not use style-loader.
-        // Consider using https://github.com/kriasoft/isomorphic-style-loader
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-      }
-
-    ],
-  },
   externals: {
     'classnames': 'classnames',
     'deep-equal': 'deep-equal',
