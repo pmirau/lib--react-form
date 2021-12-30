@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import errorMessages from './errorMessages'
+import errorMessages, { customMessagesDE } from './errorMessages'
 import { Validator, ValidationParams } from '../types'
 
 const customJoi = Joi.defaults((schema) => schema.options({
@@ -7,7 +7,6 @@ const customJoi = Joi.defaults((schema) => schema.options({
   // @ts-ignore - reason: language-key is invalid according to ts, but required in this code
   messages: errorMessages,
 }))
-
 
 /**
  * Create a JOI validator from a schema & plain attributes
@@ -17,23 +16,32 @@ const customJoi = Joi.defaults((schema) => schema.options({
 export const assembleValidator = (schema: Validator, params: ValidationParams): Validator => {
   let assembledValidator = schema
 
-  if (params.required != undefined) {
+  if (params.required !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.required())
   }
-  if (params.min != undefined) {
+  if (params.min !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.number().min(params.min))
   }
-  if (params.max != undefined) {
+  if (params.max !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.number().max(params.max))
   }
-  if (params.minLength != undefined) {
+  if (params.minLength !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.string().min(params.minLength))
   }
-  if (params.maxLength != undefined) {
+  if (params.maxLength !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.string().max(params.maxLength))
   }
-  if (params.pattern != undefined) {
+  if (params.pattern !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.string().pattern(params.pattern))
+  }
+  if (params.checked !== undefined) {
+    if (params.checked) {
+      assembledValidator = assembledValidator.concat(customJoi.boolean().valid(true)
+        .messages({ 'any.only': customMessagesDE.checked!.true }))
+    } else {
+      assembledValidator = assembledValidator.concat(customJoi.boolean().valid(false)
+        .messages({ 'any.only': customMessagesDE.checked!.false }))
+    }
   }
 
   return assembledValidator
@@ -47,6 +55,9 @@ export const assembleValidator = (schema: Validator, params: ValidationParams): 
  */
 export const validateField = (schema: Validator, value: any): string | null => {
   if (!schema) return null
+
+  // Use following to debug the error message key
+  // console.log(schema.validate(value).error)
 
   const { error } = schema.validate(value)
   return error?.message ?? null

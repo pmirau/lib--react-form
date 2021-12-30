@@ -1,0 +1,26 @@
+@use '../../../styles/variables';
+
+.label {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.8em;
+  font-size: inherit;
+  color: variables.$col-text;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__label {
+    line-height: variables.$checkbox-size;
+  }
+
+  &__label_isDisabled {
+    color: variables.$col-text_disabled;
+    cursor: not-allowed;
+  }
+
+  &__label_hasError {
+    color: variables.$col-error
+  }
+}

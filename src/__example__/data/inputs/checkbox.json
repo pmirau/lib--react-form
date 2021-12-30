@@ -1,0 +1,48 @@
+{
+  "id": "checkbox",
+  "title": "Checkbox",
+  "inputs": [
+    {
+      "type": "checkbox",
+      "id": "checkbox--default",
+      "rest": {
+        "label": "Default"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "checkbox--with-checked",
+      "registerProps": {
+        "initialValue": true
+      },
+      "rest": {
+        "label": "With Initial Value (Checked)"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "checkbox--with-error",
+      "registerProps": {
+        "validation": {
+          "checked": true
+        },
+        "touched": true
+      },
+      "rest": {
+        "label": "With Error"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "checkbox--with-disabled",
+      "registerProps": {
+        "initialValue": true
+      },
+      "rest": {
+        "label": "With Disabled",
+        "placeholder": "With Disabled",
+        "disabled": true
+      }
+    }
+  ]
+}

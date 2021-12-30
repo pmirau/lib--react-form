@@ -1,7 +1,12 @@
 import { useReducer, ChangeEvent } from 'react'
 import formReducer from '../reducer/formReducer'
 import { DEFAULT_VALIDATOR, DEFAULT_VALUE } from '../constants/inputs'
-import { ValidationParams, Validator, InputType, InputValueType } from '../types'
+import {
+  ValidationParams,
+  Validator,
+  InputType,
+  InputValueType,
+} from '../types'
 
 // errors: Either `errors.key: <falsy>` or key not defined for non-error
 
@@ -60,7 +65,10 @@ export default function useForm() {
     const { id } = event.target
     let value
 
-    switch (form.types[id]) {
+    switch (form.types[id] as InputType) {
+      case 'checkbox':
+        value = event.target.checked
+        break
       default:
         value = event.target.value
     }
@@ -95,6 +103,15 @@ export default function useForm() {
       validationSchema = DEFAULT_VALIDATOR[type],
     }: RegisterOptions = {},
   ) => {
+    let value = form.values[id]
+    const sharedReturnProps = {
+      error: form.touched[id] ? form.errors[id] : null,
+      id,
+      type,
+      onChange,
+      onBlur,
+    }
+
     if (!form.keys.includes(id)) {
       // noinspection JSCheckFunctionSignatures
       dispatch({
@@ -109,15 +126,25 @@ export default function useForm() {
           validationSchema,
         },
       })
+
+      // Return initial value on first register. Otherwise, value will always be undefined
+      // since dispatch is async and the field is not registered yet (i.e. doesn't exist in state)
+      value = initialValue
     }
 
-    return {
-      error: form.touched[id] && form.errors[id],
-      value: form.values[id],
-      id,
-      type,
-      onChange,
-      onBlur,
+    switch (type) {
+      case 'checkbox':
+        return {
+          ...sharedReturnProps,
+          checked: value as InputValueType['checkbox'],
+          type,
+        }
+      default:
+        return {
+          ...sharedReturnProps,
+          value: value as InputValueType[keyof Omit<InputValueType, 'checkbox'>],
+          type,
+        }
     }
   }
 

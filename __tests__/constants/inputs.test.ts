@@ -20,4 +20,13 @@ describe('DEFAULT_VALIDATOR', () => {
       expect(error).toBe(null)
     })
   })
+
+  describe('checkbox', () => {
+    const type: InputType = 'checkbox'
+
+    it('is valid with DEFAULT_VALUE', () => {
+      const error = validateField(DEFAULT_VALIDATOR[type], DEFAULT_VALUE[type])
+      expect(error).toBe(null)
+    })
+  })
 })

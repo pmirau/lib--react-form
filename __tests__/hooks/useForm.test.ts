@@ -1,4 +1,8 @@
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks'
+import {
+  renderHook,
+  act,
+  RenderResult,
+} from '@testing-library/react-hooks'
 import useForm from '../../src/hooks/useForm'
 import { validator } from '../../src/validator'
 import { Form } from '../../src/types'
@@ -12,18 +16,20 @@ describe('useForm', () => {
 
     it('registers a new field & initializes all default props', () => {
       act(() => {
-        result.current.register('myId')
+        result.current.register('myText')
+        result.current.register('myNumber', { type: 'number' })
+        result.current.register('myCheckbox', { type: 'checkbox' })
       })
 
       expect(result.current.form).toMatchObject({
-        keys: ['myId'],
-        initialValues: { myId: '' },
-        values: { myId: '' },
-        types: { myId: 'text' },
-        touched: { myId: false },
-        changed: { myId: false },
+        keys: ['myText', 'myNumber', 'myCheckbox'],
+        initialValues: { myText: '', myNumber: '', myCheckbox: false },
+        values: { myText: '', myNumber: '', myCheckbox: false },
+        types: { myText: 'text', myNumber: 'number', myCheckbox: 'checkbox' },
+        touched: { myText: false, myNumber: false, myCheckbox: false },
+        changed: { myText: false, myNumber: false, myCheckbox: false },
         validators: expect.any(Object),
-        errors: { myId: null },
+        errors: { myText: null, myNumber: null, myCheckbox: null },
         formHasChanged: false,
         formIsValid: true,
       } as Form)
@@ -63,6 +69,43 @@ describe('useForm', () => {
       })
 
       expect(result.error).toEqual(Error('A field with the id \'myId\' already exists'))
+    })
+
+    it('returns the correct properties depending on the input type', () => {
+      let text;
+      let number;
+      let checkbox;
+
+      const sharedProps = {
+        error: null,
+        onChange: expect.any(Function),
+        onBlur: expect.any(Function),
+      }
+
+      act(() => {
+        text = result.current.register('myText')
+        number = result.current.register('myNumber', { type: 'number' })
+        checkbox = result.current.register('myCheckbox', { type: 'checkbox' })
+      })
+
+      expect(text).toMatchObject({
+        ...sharedProps,
+        value: '',
+        id: 'myText',
+        type: 'text',
+      })
+      expect(number).toMatchObject({
+        ...sharedProps,
+        value: '',
+        id: 'myNumber',
+        type: 'number',
+      })
+      expect(checkbox).toMatchObject({
+        ...sharedProps,
+        checked: false,
+        id: 'myCheckbox',
+        type: 'checkbox',
+      })
     })
   })
 
@@ -235,6 +278,49 @@ describe('useForm', () => {
       })
 
       expect(result.current.form.errors).toHaveProperty('myId', null)
+    })
+  })
+
+  describe('onChange()', () => {
+    let result: RenderResult<any>
+    beforeEach(() => {
+      ({ result } = renderHook(() => useForm()))
+    })
+
+    it('updated default types correctly', () => {
+      act(() => {
+        result.current.register('myText')
+        result.current.register('myNumber')
+      })
+
+      act(() => {
+        const { onChange: onChangeText } = result.current.register('myText')
+        const { onChange: onChangeNumber } = result.current.register('myNumber', { type: 'number' })
+
+        onChangeText({ target: { id: 'myText', value: 'updated value', checked: true } })
+        onChangeNumber({ target: { id: 'myNumber', value: '776', checked: false } })
+      })
+
+      expect(result.current.form.values).toHaveProperty('myText', 'updated value')
+      expect(result.current.form.values).toHaveProperty('myNumber', '776')
+    })
+
+    it('updates non-default types correctly', async () => {
+      act(() => {
+        result.current.register('myCheckbox', { type: 'checkbox' })
+      })
+
+      act(() => {
+        // register muss erneut aufgerufen werden, damit die "neue" onChange() Function mit dem
+        // aktuellen form-state zurückgegeben wird (Der form-state wird innerhalb onChange()
+        // aufgerufen).
+        // Würde onChange vom obigen register() verwendet werden, dann ist in onChange() immer noch
+        // der alte state. Also wo alles leer ist.
+        const { onChange } = result.current.register('myCheckbox', { type: 'checkbox' })
+        onChange({ target: { id: 'myCheckbox', checked: true } })
+      })
+
+      expect(result.current.form.values).toHaveProperty('myCheckbox', true)
     })
   })
 })

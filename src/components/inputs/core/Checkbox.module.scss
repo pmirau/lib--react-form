@@ -1,0 +1,56 @@
+@use '../../../styles/variables';
+
+// TODO: Add disabled colors
+
+.input {
+  display: grid;
+  grid-template-areas: "checkbox";
+  
+  &:hover {
+    cursor: pointer;
+  }
+
+  > * {
+    grid-area: checkbox;
+  }
+
+  &__input {
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+  }
+
+  &__control {
+    display: inline-grid;
+    width: variables.$checkbox-size;
+    height: variables.$checkbox-size;
+    border-radius: variables.$checkbox-border-radius;
+    border: 1px solid variables.$col-border;
+    //transform: translateY(-0.05em);
+  }
+
+  &__control_hasError {
+    border-color: variables.$col-error;
+  }
+
+  &__control_isDisabled {
+    background-color: variables.$col-bg_disabled;
+    border-color: variables.$col-border_disabled;
+    cursor: not-allowed;
+  }
+
+  &__control svg {
+    color: variables.$col-border;
+    transition: variables.$transition;
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+
+  &__input:checked + &__control svg {
+    transform: scale(1);
+  }
+
+  &__input:focus + &__control {
+    border-color: variables.$col-border_focus;
+  }
+}
