@@ -62,8 +62,7 @@ describe('useForm', () => {
         result.current.register('myId')
       })
 
-      // eslint-disable-next-line quotes
-      expect(result.error).toEqual(Error(`A field with the id 'myId' already exists`))
+      expect(result.error).toEqual(Error('A field with the id \'myId\' already exists'))
     })
   })
 
@@ -136,8 +135,7 @@ describe('useForm', () => {
         result.current.changeValue('myId', 1)
       })
 
-      // eslint-disable-next-line quotes
-      expect(result.error).toEqual(Error(`A field with the id 'myId' does not exist`))
+      expect(result.error).toEqual(Error('A field with the id \'myId\' does not exist'))
     })
 
     it('updates all fields correctly (+error)', () => {
