@@ -159,10 +159,17 @@ included separately in the library host.
 In NextJS fe. this is done as `import '@pmirau/<package-name>/dist/main.css` in `_app.js`.
 
 Try to develop the library with dynamic css:  
-Use css variables to make the library customizable. In the library you can use a 
-`src/styles/_variables.scss` which all components will rely on by 
-`@use '<relative-path-to>/styles/variables';`.  
-in `_variables.css` use _CSS custom properties_, which can be overridden by the library consumer.
+Use css variables to make the library customizable.
+Create a `src/styles/_variables.scss` with scss variables, which all components will rely on  
+(by `@use '<relative-path-to>/styles/variables';`).
+
+Based on the scss variables, create _CSS custom properties_ in `src/styles/globals.css`, with all
+dynamic variables, which should be overridable by the library consumer. (`globals.css` only defines
+_CSS custom properties_. Nothing more.)
+
+Finally, import `src/styles/globals.css` in `src/index.ts`, to include them into webpack. Simply 
+insert `import './styles/globals.css'`.
+
 
 To override in the library consumer, use following pattern:  
 1. Import the css-file **once** globally (fe. in `_app.js` in NextJS)
