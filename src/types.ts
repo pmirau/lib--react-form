@@ -24,6 +24,8 @@ export interface ValidationParams {
   maxLength?: number,
   pattern?: RegExp,
   checked?: boolean,
+  minCheckedItems?: number
+  maxCheckedItems?: number
 }
 
 /**
@@ -33,6 +35,7 @@ export type InputType =
   | 'text'
   | 'number'
   | 'checkbox'
+  | 'checkboxGroup'
 
 /**
  * Types for input types
@@ -41,6 +44,7 @@ export interface InputValueType {
   text: string
   number: string
   checkbox: boolean
+  checkboxGroup: string[]
 }
 
 /**

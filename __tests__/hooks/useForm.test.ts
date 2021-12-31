@@ -19,17 +19,53 @@ describe('useForm', () => {
         result.current.register('myText')
         result.current.register('myNumber', { type: 'number' })
         result.current.register('myCheckbox', { type: 'checkbox' })
+        result.current.register('myCheckboxGroup', { type: 'checkboxGroup' })
       })
 
       expect(result.current.form).toMatchObject({
-        keys: ['myText', 'myNumber', 'myCheckbox'],
-        initialValues: { myText: '', myNumber: '', myCheckbox: false },
-        values: { myText: '', myNumber: '', myCheckbox: false },
-        types: { myText: 'text', myNumber: 'number', myCheckbox: 'checkbox' },
-        touched: { myText: false, myNumber: false, myCheckbox: false },
-        changed: { myText: false, myNumber: false, myCheckbox: false },
+        keys: [
+          'myText',
+          'myNumber',
+          'myCheckbox',
+          'myCheckboxGroup',
+        ],
+        initialValues: {
+          myText: '',
+          myNumber: '',
+          myCheckbox: false,
+          myCheckboxGroup: [],
+        },
+        values: {
+          myText: '',
+          myNumber: '',
+          myCheckbox: false,
+          myCheckboxGroup: [],
+        },
+        types: {
+          myText: 'text',
+          myNumber: 'number',
+          myCheckbox: 'checkbox',
+          myCheckboxGroup: 'checkboxGroup',
+        },
+        touched: {
+          myText: false,
+          myNumber: false,
+          myCheckbox: false,
+          myCheckboxGroup: false,
+        },
+        changed: {
+          myText: false,
+          myNumber: false,
+          myCheckbox: false,
+          myCheckboxGroup: false,
+        },
         validators: expect.any(Object),
-        errors: { myText: null, myNumber: null, myCheckbox: null },
+        errors: {
+          myText: null,
+          myNumber: null,
+          myCheckbox: null,
+          myCheckboxGroup: null,
+        },
         formHasChanged: false,
         formIsValid: true,
       } as Form)
@@ -75,6 +111,7 @@ describe('useForm', () => {
       let text;
       let number;
       let checkbox;
+      let checkboxGroup;
 
       const sharedProps = {
         error: null,
@@ -86,6 +123,10 @@ describe('useForm', () => {
         text = result.current.register('myText')
         number = result.current.register('myNumber', { type: 'number' })
         checkbox = result.current.register('myCheckbox', { type: 'checkbox' })
+        checkboxGroup = result.current.register('myCheckboxGroup', {
+          type: 'checkboxGroup',
+          initialValue: ['checkbox1', 'checkbox2'],
+        })
       })
 
       expect(text).toMatchObject({
@@ -105,6 +146,12 @@ describe('useForm', () => {
         checked: false,
         id: 'myCheckbox',
         type: 'checkbox',
+      })
+      expect(checkboxGroup).toMatchObject({
+        ...sharedProps,
+        value: ['checkbox1', 'checkbox2'],
+        id: 'myCheckboxGroup',
+        type: 'checkboxGroup',
       })
     })
   })
@@ -290,19 +337,40 @@ describe('useForm', () => {
     it('updated default types correctly', () => {
       act(() => {
         result.current.register('myText')
-        result.current.register('myNumber')
+        result.current.register('myNumber', { type: 'number' })
+        result.current.register('myCheckboxGroup', {
+          type: 'checkboxGroup',
+          initialValues: ['checkbox1', 'checkbox2'],
+        })
       })
 
       act(() => {
         const { onChange: onChangeText } = result.current.register('myText')
         const { onChange: onChangeNumber } = result.current.register('myNumber', { type: 'number' })
+        const { onChange: onChangeCheckboxGroup } = result.current.register('myCheckboxGroup', {
+          type: 'checkboxGroup',
+          initialValues: ['checkbox1', 'checkbox2'],
+        })
 
+        // passes 'checked' to see that it correctly ignores this prop, since it is 'invalid' for
+        // these types
         onChangeText({ target: { id: 'myText', value: 'updated value', checked: true } })
         onChangeNumber({ target: { id: 'myNumber', value: '776', checked: false } })
+        onChangeCheckboxGroup({
+          target: {
+            id: 'myCheckboxGroup',
+            value: ['checkbox1', 'checkbox3'],
+            checked: false,
+          },
+        })
       })
 
       expect(result.current.form.values).toHaveProperty('myText', 'updated value')
       expect(result.current.form.values).toHaveProperty('myNumber', '776')
+      expect(result.current.form.values).toHaveProperty(
+        'myCheckboxGroup',
+        ['checkbox1', 'checkbox3'],
+      )
     })
 
     it('updates non-default types correctly', async () => {

@@ -15,6 +15,8 @@ const messagesDE: LanguageMessages = {
   'number.base': 'Bitte gebe eine gültige Zahl ein',
   'number.min': 'Bitte gebe mindestens die Zahl {{#limit}} ein',
   'number.max': 'Bitte gebe maximal die Zahl {{#limit}} ein',
+  'array.min': 'Bitte wähle mindestens {{#limit}} Einträge aus',
+  'array.max': 'Bitte wähle maximal {{#limit}} Einträge aus',
 }
 
 export default { de: messagesDE }

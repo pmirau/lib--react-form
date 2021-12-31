@@ -75,5 +75,21 @@ describe('validation', () => {
       expect(validateField(validatorFalse, false)).toEqual(null)
       expect(validateField(validatorFalse, true)).toEqual('Dieses Feld darf nicht ausgewählt sein')
     })
+
+    it('minCheckedItems: checkboxGroup has min selected items', () => {
+      const validator: Validator = assembleValidator(Joi.array(), { minCheckedItems: 3 })
+
+      expect(validateField(validator, ['a', 'b', 'c'])).toEqual(null)
+      expect(validateField(validator, ['a', 'b']))
+        .toEqual('Bitte wähle mindestens 3 Einträge aus')
+    })
+
+    it('maxCheckedItems: checkboxGroup has max selected items', () => {
+      const validator: Validator = assembleValidator(Joi.array(), { maxCheckedItems: 3 })
+
+      expect(validateField(validator, ['a', 'b', 'c'])).toEqual(null)
+      expect(validateField(validator, ['a', 'b', 'c', 'd']))
+        .toEqual('Bitte wähle maximal 3 Einträge aus')
+    })
   })
 })

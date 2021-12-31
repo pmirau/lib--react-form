@@ -142,7 +142,11 @@ export default function useForm() {
       default:
         return {
           ...sharedReturnProps,
-          value: value as InputValueType[keyof Omit<InputValueType, 'checkbox'>],
+          value: value as
+            InputValueType[keyof Pick<InputValueType,
+            | 'text'
+            | 'number'
+            | 'checkboxGroup'>],
           type,
         }
     }

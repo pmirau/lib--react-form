@@ -43,6 +43,12 @@ export const assembleValidator = (schema: Validator, params: ValidationParams): 
         .messages({ 'any.only': customMessagesDE.checked!.false }))
     }
   }
+  if (params.minCheckedItems !== undefined) {
+    assembledValidator = assembledValidator.concat(customJoi.array().min(params.minCheckedItems))
+  }
+  if (params.maxCheckedItems !== undefined) {
+    assembledValidator = assembledValidator.concat(customJoi.array().max(params.maxCheckedItems))
+  }
 
   return assembledValidator
 }
