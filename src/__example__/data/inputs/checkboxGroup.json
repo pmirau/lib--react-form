@@ -1,0 +1,97 @@
+{
+  "id": "checkboxGroup",
+  "title": "Checkbox Group",
+  "inputs": [
+    {
+      "type": "checkboxGroup",
+      "id": "checkboxGroup--default",
+      "label": "Default",
+      "checkboxes": [
+        {
+          "id": "checkboxGroup--default--checkbox1",
+          "label": "Checkbox 1"
+        },
+        {
+          "id": "checkboxGroup--default--checkbox2",
+          "label": "Checkbox 2"
+        },
+        {
+          "id": "checkboxGroup--default--checkbox3",
+          "label": "Checkbox 3"
+        }
+      ]
+    },
+    {
+      "type": "checkboxGroup",
+      "id": "checkboxGroup--with-initial-value",
+      "label": "With Initial Value",
+      "initialValue": [
+        "checkboxGroup--with-initial-value--checkbox2",
+        "checkboxGroup--with-initial-value--checkbox3"
+      ],
+      "checkboxes": [
+        {
+          "id": "checkboxGroup--with-initial-value--checkbox1",
+          "label": "Checkbox 1"
+        },
+        {
+          "id": "checkboxGroup--with-initial-value--checkbox2",
+          "label": "Checkbox 2"
+        },
+        {
+          "id": "checkboxGroup--with-initial-value--checkbox3",
+          "label": "Checkbox 3"
+        }
+      ]
+    },
+    {
+      "type": "checkboxGroup",
+      "id": "checkboxGroup--with-error",
+      "label": "With Error",
+      "initialValue": [
+        "checkboxGroup--with-error--checkbox1"
+      ],
+      "validation": {
+        "minCheckedItems": 2
+      },
+      "touched": true,
+      "checkboxes": [
+        {
+          "id": "checkboxGroup--with-error--checkbox1",
+          "label": "Checkbox 1"
+        },
+        {
+          "id": "checkboxGroup--with-error--checkbox2",
+          "label": "Checkbox 2"
+        },
+        {
+          "id": "checkboxGroup--with-error--checkbox3",
+          "label": "Checkbox 3"
+        }
+      ]
+    },
+    {
+      "type": "checkboxGroup",
+      "id": "checkboxGroup--with-disabled",
+      "label": "With Disabled",
+      "initialValue": [
+        "checkboxGroup--with-disabled--checkbox1"
+      ],
+      "disabled": true,
+      "checkboxes": [
+        {
+          "id": "checkboxGroup--with-disabled--checkbox1",
+          "label": "Checkbox 1"
+        },
+        {
+          "id": "checkboxGroup--with-disabled--checkbox2",
+          "label": "Checkbox 2"
+        },
+        {
+          "id": "checkboxGroup--with-disabled--checkbox3",
+          "label": "Checkbox 3"
+        }
+      ]
+    }
+  ]
+}

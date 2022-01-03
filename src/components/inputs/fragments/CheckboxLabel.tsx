@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import cn from 'classnames'
-import styles from './LabelCheckbox.module.scss'
+import styles from './CheckboxLabel.module.scss'
 
 interface LabelCheckboxProps {
   htmlFor: string
@@ -13,7 +13,7 @@ interface LabelCheckboxProps {
 /**
  * Label designed for checkbox, where the checkbox is passed as child
  */
-const LabelCheckbox = ({
+const CheckboxLabel = ({
   label,
   htmlFor,
   disabled,
@@ -41,4 +41,4 @@ const LabelCheckbox = ({
   )
 }
 
-export default LabelCheckbox
+export default CheckboxLabel

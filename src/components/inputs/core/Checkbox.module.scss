@@ -46,6 +46,10 @@
     transform-origin: bottom left;
   }
 
+  &__control_hasError svg {
+    color: variables.$col-error
+  }
+
   &__input:checked + &__control svg {
     transform: scale(1);
   }

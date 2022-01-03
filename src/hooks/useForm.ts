@@ -108,8 +108,6 @@ export default function useForm() {
       error: form.touched[id] ? form.errors[id] : null,
       id,
       type,
-      onChange,
-      onBlur,
     }
 
     if (!form.keys.includes(id)) {
@@ -138,6 +136,16 @@ export default function useForm() {
           ...sharedReturnProps,
           checked: value as InputValueType['checkbox'],
           type,
+          onChange,
+          onBlur,
+        }
+      case 'checkboxGroup':
+        return {
+          ...sharedReturnProps,
+          value: value as InputValueType['checkboxGroup'],
+          type,
+          changeValue,
+          touch,
         }
       default:
         return {
@@ -145,9 +153,10 @@ export default function useForm() {
           value: value as
             InputValueType[keyof Pick<InputValueType,
             | 'text'
-            | 'number'
-            | 'checkboxGroup'>],
+            | 'number'>],
           type,
+          onChange,
+          onBlur,
         }
     }
   }

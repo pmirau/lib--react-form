@@ -5,54 +5,38 @@
     {
       "type": "number",
       "id": "default",
-      "rest": {
-        "label": "Default"
-      }
+      "label": "Default"
     },
     {
       "type": "number",
       "id": "with-placeholder",
-      "rest": {
-        "label": "With Placeholder",
-        "placeholder": "With Placeholder"
-      }
+      "label": "With Placeholder",
+      "placeholder": "With Placeholder"
     },
     {
       "type": "number",
       "id": "with-initial-value",
-      "registerProps": {
-        "initialValue": "777"
-      },
-      "rest": {
-        "label": "With Initial Value"
-      }
+      "initialValue": "777",
+      "label": "With Initial Value"
     },
     {
       "type": "number",
       "id": "with-error",
-      "registerProps": {
-        "initialValue": "776",
-        "validation": {
-          "min": 777
-        },
-        "touched": true
+      "initialValue": "776",
+      "validation": {
+        "min": 777
       },
-      "rest": {
-        "label": "With Error",
-        "placeholder": "With Error"
-      }
+      "touched": true,
+      "label": "With Error",
+      "placeholder": "With Error"
     },
     {
       "type": "number",
       "id": "with-disabled",
-      "registerProps": {
-        "initialValue": "888"
-      },
-      "rest": {
-        "label": "With Disabled",
-        "placeholder": "With Disabled",
-        "disabled": true
-      }
+      "initialValue": "888",
+      "label": "With Disabled",
+      "placeholder": "With Disabled",
+      "disabled": true
     }
   ]
 }

@@ -2,12 +2,21 @@ import React from 'react'
 import textData from '../data/inputs/text.json'
 import numberData from '../data/inputs/number.json'
 import checkboxData from '../data/inputs/checkbox.json'
+import checkboxGroupData from '../data/inputs/checkboxGroup.json'
+import { DataInputGroup, DataInputs } from './InputOverview.types'
 import useForm from '../../hooks/useForm'
 import InputSelector from '../../components/inputs/InputSelector'
-import { InputType } from '../../types'
 import styles from './InputOverview.module.scss'
 
-const data = [textData, numberData, checkboxData]
+// Workaround for ts error
+type Checkboxes = DataInputs['checkboxGroup']['checkboxes']
+
+const data = [
+  textData as DataInputGroup<DataInputs['text']>,
+  numberData as DataInputGroup<DataInputs['number']>,
+  checkboxData as DataInputGroup<DataInputs['checkbox']>,
+  checkboxGroupData as DataInputGroup<DataInputs['checkboxGroup']>,
+]
 
 const InputOverview = () => {
   const { register } = useForm()
@@ -21,21 +30,43 @@ const InputOverview = () => {
           <h2>{typeGroup.title}</h2>
           <div>
             {typeGroup.inputs.map(({
-              // component: Component,
-              id,
               type,
-              rest,
-              registerProps,
-            }) => (
-              <InputSelector
-                key={id}
-                {...register(id, {
-                  type: type as InputType,
-                  ...registerProps,
-                })}
-                {...rest}
-              />
-            ))}
+              id,
+              initialValue,
+              touched,
+              changed,
+              validation,
+              validationSchema,
+              label,
+              ...rest
+            }) => {
+              // Hacky way to silence ts errors
+              let checkboxes
+              if ('checkboxes' in rest) {
+                // eslint-disable-next-line no-param-reassign
+                ({ checkboxes, ...rest } = rest)
+              }
+
+              return (
+                <React.Fragment key={id}>
+                  <InputSelector
+                    {...register(id, {
+                      type,
+                      initialValue,
+                      touched,
+                      changed,
+                      validation,
+                      validationSchema,
+                    })}
+                    {...rest}
+                    // Exclamation mark to silence TS error
+                    label={label!}
+                    // Silence TS error
+                    {...(checkboxes as Checkboxes && { checkboxes: checkboxes as Checkboxes })}
+                  />
+                </React.Fragment>
+              )
+            })}
           </div>
         </React.Fragment>
       ))}

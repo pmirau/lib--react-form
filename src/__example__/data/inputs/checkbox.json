@@ -5,44 +5,30 @@
     {
       "type": "checkbox",
       "id": "checkbox--default",
-      "rest": {
-        "label": "Default"
-      }
+      "label": "Default"
     },
     {
       "type": "checkbox",
       "id": "checkbox--with-checked",
-      "registerProps": {
-        "initialValue": true
-      },
-      "rest": {
-        "label": "With Initial Value (Checked)"
-      }
+      "initialValue": true,
+      "label": "With Initial Value (Checked)"
     },
     {
       "type": "checkbox",
       "id": "checkbox--with-error",
-      "registerProps": {
-        "validation": {
-          "checked": true
-        },
-        "touched": true
+      "validation": {
+        "checked": true
       },
-      "rest": {
-        "label": "With Error"
-      }
+      "touched": true,
+      "label": "With Error"
     },
     {
       "type": "checkbox",
       "id": "checkbox--with-disabled",
-      "registerProps": {
-        "initialValue": true
-      },
-      "rest": {
-        "label": "With Disabled",
-        "placeholder": "With Disabled",
-        "disabled": true
-      }
+      "initialValue": true,
+      "label": "With Disabled",
+      "placeholder": "With Disabled",
+      "disabled": true
     }
   ]
 }

@@ -115,8 +115,6 @@ describe('useForm', () => {
 
       const sharedProps = {
         error: null,
-        onChange: expect.any(Function),
-        onBlur: expect.any(Function),
       }
 
       act(() => {
@@ -131,24 +129,32 @@ describe('useForm', () => {
 
       expect(text).toMatchObject({
         ...sharedProps,
+        onChange: expect.any(Function),
+        onBlur: expect.any(Function),
         value: '',
         id: 'myText',
         type: 'text',
       })
       expect(number).toMatchObject({
         ...sharedProps,
+        onChange: expect.any(Function),
+        onBlur: expect.any(Function),
         value: '',
         id: 'myNumber',
         type: 'number',
       })
       expect(checkbox).toMatchObject({
         ...sharedProps,
+        onChange: expect.any(Function),
+        onBlur: expect.any(Function),
         checked: false,
         id: 'myCheckbox',
         type: 'checkbox',
       })
       expect(checkboxGroup).toMatchObject({
         ...sharedProps,
+        changeValue: expect.any(Function),
+        touch: expect.any(Function),
         value: ['checkbox1', 'checkbox2'],
         id: 'myCheckboxGroup',
         type: 'checkboxGroup',
@@ -347,7 +353,7 @@ describe('useForm', () => {
       act(() => {
         const { onChange: onChangeText } = result.current.register('myText')
         const { onChange: onChangeNumber } = result.current.register('myNumber', { type: 'number' })
-        const { onChange: onChangeCheckboxGroup } = result.current.register('myCheckboxGroup', {
+        const { changeValue: changeValueCheckboxGroup } = result.current.register('myCheckboxGroup', {
           type: 'checkboxGroup',
           initialValues: ['checkbox1', 'checkbox2'],
         })
@@ -356,13 +362,7 @@ describe('useForm', () => {
         // these types
         onChangeText({ target: { id: 'myText', value: 'updated value', checked: true } })
         onChangeNumber({ target: { id: 'myNumber', value: '776', checked: false } })
-        onChangeCheckboxGroup({
-          target: {
-            id: 'myCheckboxGroup',
-            value: ['checkbox1', 'checkbox3'],
-            checked: false,
-          },
-        })
+        changeValueCheckboxGroup('myCheckboxGroup', ['checkbox1', 'checkbox3'])
       })
 
       expect(result.current.form.values).toHaveProperty('myText', 'updated value')
