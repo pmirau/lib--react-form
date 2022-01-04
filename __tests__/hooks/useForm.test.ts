@@ -59,7 +59,12 @@ describe('useForm', () => {
           myCheckbox: false,
           myCheckboxGroup: false,
         },
-        validators: expect.any(Object),
+        validators: {
+          myText: expect.any(Object),
+          myNumber: expect.any(Object),
+          myCheckbox: expect.any(Object),
+          myCheckboxGroup: expect.any(Object),
+        },
         errors: {
           myText: null,
           myNumber: null,
@@ -332,6 +337,14 @@ describe('useForm', () => {
 
       expect(result.current.form.errors).toHaveProperty('myId', null)
     })
+
+    xdescribe('types', () => {
+      // TODO Test validation for each types
+
+      xit('validates checkboxGroup correctly', () => {
+        // ...
+      })
+    })
   })
 
   describe('onChange()', () => {
@@ -353,27 +366,18 @@ describe('useForm', () => {
       act(() => {
         const { onChange: onChangeText } = result.current.register('myText')
         const { onChange: onChangeNumber } = result.current.register('myNumber', { type: 'number' })
-        const { changeValue: changeValueCheckboxGroup } = result.current.register('myCheckboxGroup', {
-          type: 'checkboxGroup',
-          initialValues: ['checkbox1', 'checkbox2'],
-        })
 
         // passes 'checked' to see that it correctly ignores this prop, since it is 'invalid' for
         // these types
         onChangeText({ target: { id: 'myText', value: 'updated value', checked: true } })
         onChangeNumber({ target: { id: 'myNumber', value: '776', checked: false } })
-        changeValueCheckboxGroup('myCheckboxGroup', ['checkbox1', 'checkbox3'])
       })
 
       expect(result.current.form.values).toHaveProperty('myText', 'updated value')
       expect(result.current.form.values).toHaveProperty('myNumber', '776')
-      expect(result.current.form.values).toHaveProperty(
-        'myCheckboxGroup',
-        ['checkbox1', 'checkbox3'],
-      )
     })
 
-    it('updates non-default types correctly', async () => {
+    it('updates non-default types correctly', () => {
       act(() => {
         result.current.register('myCheckbox', { type: 'checkbox' })
       })
@@ -389,6 +393,21 @@ describe('useForm', () => {
       })
 
       expect(result.current.form.values).toHaveProperty('myCheckbox', true)
+    })
+
+    it('updates non-onChange() (setValue()) types correctly', () => {
+      act(() => {
+        const { changeValue: changeValueCheckboxGroup } = result.current.register('myCheckboxGroup', {
+          type: 'checkboxGroup',
+          initialValues: ['checkbox1', 'checkbox2'],
+        })
+        changeValueCheckboxGroup('myCheckboxGroup', ['checkbox1', 'checkbox3'])
+      })
+
+      expect(result.current.form.values).toHaveProperty(
+        'myCheckboxGroup',
+        ['checkbox1', 'checkbox3'],
+      )
     })
   })
 })
