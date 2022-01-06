@@ -1,6 +1,12 @@
 import { assembleValidator, validateField } from '../validator'
 import { hasSome, isEqual, removePropFromObject } from '../utils/formReducer'
-import { InputType, InputValueType, ValidationParams, Validator, Form } from '../types'
+import {
+  InputType,
+  InputValueType,
+  ValidationParams,
+  Validator,
+  Form,
+} from '../types'
 
 interface Payload {
   id: string
@@ -14,10 +20,10 @@ interface Payload {
 }
 
 type ActionType =
-  | { type: "register"; payload: Omit<Payload, 'value'> }
-  | { type: "unregister"; payload: Pick<Payload, 'id'> }
-  | { type: "changeValue"; payload: Pick<Payload, 'id' | 'value'> }
-  | { type: "touch"; payload: Pick<Payload, 'id'> }
+  | { type: 'register'; payload: Omit<Payload, 'value'> }
+  | { type: 'unregister'; payload: Pick<Payload, 'id'> }
+  | { type: 'changeValue'; payload: Pick<Payload, 'id' | 'value'> }
+  | { type: 'touch'; payload: Pick<Payload, 'id'> }
 
 export default function formReducer(state: Form, action: ActionType): Form {
   switch (action.type) {
