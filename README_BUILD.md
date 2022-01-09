@@ -90,7 +90,9 @@ Use _Behavior Driven Development_ during development (`yarn dev`)
 
 To live test the library, you can use following options:
 
-#### Yarn Link
+#### Options
+
+##### Yarn Link
 
 1. Execute `yarn link` in the root directory
 2. Execute the provided command (`yarn link <package>`) in `host/`
@@ -102,14 +104,14 @@ Alternative:
 To enable autocompletion, mark the library in `host/node_modules` as `Cancel exclusion`
 (see https://youtrack.jetbrains.com/issue/WEB-16713#focus=streamItem-27-3055019-0-0)
 
-#### Symlink
+##### Symlink
 
 Or symlink src/ into the example-framework to retain the initial NextJS compilation speed:  
 `ln -s <src>/ <symlinked-folder-name>`  
 But remember to design the library interface abstract, so that nothing changes for the imports
 but the import-path (by exporting all components etc. via `src/index.ts`)
 
-#### Self-host
+##### Self-host
 
 _Not implemented!_
 
@@ -117,10 +119,28 @@ Also consider to spin up a custom React server via webpack-dev-server.
 See [this tutorial](https://medium.com/@JedaiSaboteur/creating-a-react-app-from-scratch-f3c693b84658)
 for more info.
 
-#### Alternatives
+##### Alternatives
 - CRA
 - Storybook
 - React Styleguidist (+ Emotion)
+
+#### Example Components
+
+Webpack is currently not correctly configured to omit the example directory in `src/` in the 
+production build. Therefore, you have to manually export the example components in `src/index.ts`
+during development, when you want to use them:
+
+```js
+// src/index.ts
+
+// ...
+
+// TODO Comment out
+// export * from './__example__/index'
+```
+
+Remember to not include this export into Version Control. That's why the TODO is prepended before
+the line
 
 ## Git
 
