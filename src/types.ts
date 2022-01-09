@@ -62,3 +62,45 @@ export interface Form {
   formHasChanged: boolean
   formIsValid: boolean
 }
+
+// Public interface for inputs. Can be used by API's or DB's
+
+// TODO Add generic to remaining properties (validation, ...)
+interface BasicInput<T extends InputType> {
+  type: T
+  id: string
+  initialValue?: InputValueType[T]
+  touched?: boolean
+  changed?: boolean
+  validation?: ValidationParams
+  validationSchema?: Validator
+  label?: string
+  disabled?: boolean
+}
+
+export interface TextInput extends BasicInput<'text'> {
+  autoComplete?: string
+  placeholder?: string
+}
+
+export interface NumberInput extends BasicInput<'number'> {
+  autoComplete?: string
+  placeholder?: string
+}
+
+export interface CheckboxInput extends BasicInput<'checkbox'> {
+  label: string
+}
+
+export interface CheckboxGroupInput extends BasicInput<'checkboxGroup'> {
+  checkboxes: {
+    id: string
+    label: string
+  }[]
+}
+
+export type Inputs =
+  | TextInput
+  | NumberInput
+  | CheckboxInput
+  | CheckboxGroupInput

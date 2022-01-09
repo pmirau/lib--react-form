@@ -3,19 +3,25 @@ import textData from '../data/inputs/text.json'
 import numberData from '../data/inputs/number.json'
 import checkboxData from '../data/inputs/checkbox.json'
 import checkboxGroupData from '../data/inputs/checkboxGroup.json'
-import { DataInputGroup, DataInputs } from './InputOverview.types'
+import { DataInputGroup } from './InputOverview.types'
+import {
+  CheckboxGroupInput,
+  CheckboxInput,
+  NumberInput,
+  TextInput,
+} from '../../types'
 import useForm from '../../hooks/useForm'
 import InputSelector from '../../components/inputs/InputSelector'
 import styles from './InputOverview.module.scss'
 
 // Workaround for ts error
-type Checkboxes = DataInputs['checkboxGroup']['checkboxes']
+type Checkboxes = CheckboxGroupInput['checkboxes']
 
 const data = [
-  textData as DataInputGroup<DataInputs['text']>,
-  numberData as DataInputGroup<DataInputs['number']>,
-  checkboxData as DataInputGroup<DataInputs['checkbox']>,
-  checkboxGroupData as DataInputGroup<DataInputs['checkboxGroup']>,
+  textData as DataInputGroup<TextInput>,
+  numberData as DataInputGroup<NumberInput>,
+  checkboxData as DataInputGroup<CheckboxInput>,
+  checkboxGroupData as DataInputGroup<CheckboxGroupInput>,
 ]
 
 const InputOverview = () => {
