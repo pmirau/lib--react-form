@@ -45,6 +45,8 @@ to GitHub Packages first.
 2. Delete `.git` to remove git dependencies
 3. Rename `README.md` to `README_BUILD.md` (To use `README.md` for the library)
 4. Update `package.json` fields
+    - Don't forget to set version to `0.1.0` (see (semver)[https://semver.org/#how-should-i-deal-with-revisions-in-the-0yz-initial-development-phase])
+      for reasons)
 5. Init a new repository (TODO: Document steps)
    1. Create a new, empty repository on GitHub
    2. Follow the "Quick setup" steps
