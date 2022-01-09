@@ -1,6 +1,6 @@
 {
   "name": "@pmirau/lib--react-form",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Form for ReactJS",
   "main": "dist/main.js",
   "files": [
