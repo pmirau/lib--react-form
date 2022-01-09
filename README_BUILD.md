@@ -48,14 +48,14 @@ to GitHub Packages first.
     - Don't forget to set version to `0.1.0` (see (semver)[https://semver.org/#how-should-i-deal-with-revisions-in-the-0yz-initial-development-phase])
       for reasons)
 5. Init a new repository (TODO: Document steps)
-   1. Create a new, empty repository on GitHub
-   2. Follow the "Quick setup" steps
-      1. `git init`
-      2. `git add .`
-      3. `git commit -m "build: init repository"`
-      4. `git remote add origin <repository-url>`
-      5. `git push -u origin master`
-      
+    1. Create a new, empty repository on GitHub
+    2. Follow the "Quick setup" steps
+        1. `git init`
+        2. `git add .`
+        3. `git commit -m "build: init repository"`
+        4. `git remote add origin <repository-url>`
+        5. `git push -u origin master`
+
 #### Publish package
 
 Use the [Publishing a package using publishConfig in the package.json file](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#publishing-a-package-using-publishconfig-in-the-packagejson-file)
@@ -128,7 +128,7 @@ for more info.
 
 #### Example Components
 
-Webpack is currently not correctly configured to omit the example directory in `src/` in the 
+Webpack is currently not correctly configured to omit the example directory in `src/` in the
 production build. Therefore, you have to manually export the example components in `src/index.ts`
 during development, when you want to use them:
 
@@ -137,8 +137,8 @@ during development, when you want to use them:
 
 // ...
 
-// TODO Comment out
-// export * from './__example__/index'
+// TODO Remove before VC
+// export * as Example from './__example__/index'
 ```
 
 Remember to not include this export into Version Control. That's why the TODO is prepended before
@@ -150,9 +150,9 @@ the line
 
 - Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification
 - Follow [Angular types](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type)
-  - additionally
-    - devenv: Changes that affect the development environment. So everything regarding the React
-    server setup for live-'testing' or viewing the library
+    - additionally
+        - devenv: Changes that affect the development environment. So everything regarding the React
+          server setup for live-'testing' or viewing the library
 
 ### Branch names
 
@@ -164,19 +164,19 @@ Start the description with a verb if possible.
 
 ### `react` as dev-& peer-dependency
 
-Also add `react` as a dev-dependency alongside the peer-dependency in the library. 
+Also add `react` as a dev-dependency alongside the peer-dependency in the library.
 Because otherwise NextJS throws the error `Module not found: Can't resolve 'react'`
 
 ### Define dependencies as externals
 
-Define dependencies, which should be added while consuming the library (ie. not bundled with 
+Define dependencies, which should be added while consuming the library (ie. not bundled with
 main.js) in webpack-externals.
 
 ## Library Guidelines
 
 ### CSS
 
-In the library you can use css-modules. CSS will be built into a separate file, which has to be 
+In the library you can use css-modules. CSS will be built into a separate file, which has to be
 included separately in the library host.  
 In NextJS fe. this is done as `import '@pmirau/<package-name>/dist/main.css` in `_app.js`.
 
@@ -189,12 +189,12 @@ Based on the scss variables, create _CSS custom properties_ in `src/styles/globa
 dynamic variables, which should be overridable by the library consumer. (`globals.css` only defines
 _CSS custom properties_. Nothing more.)
 
-Finally, import `src/styles/globals.css` in `src/index.ts`, to include them into webpack. Simply 
+Finally, import `src/styles/globals.css` in `src/index.ts`, to include them into webpack. Simply
 insert `import './styles/globals.css'`.
 
 
-To override in the library consumer, use following pattern:  
+To override in the library consumer, use following pattern:
 1. Import the css-file **once** globally (fe. in `_app.js` in NextJS)
 2. Create a separate scss-file in the consumer, only for overriding the library styles:  
-  Fe. as `<consumer-root>/src/styles/<library-package>.scss`
+   Fe. as `<consumer-root>/src/styles/<library-package>.scss`
 3. Override the _CSS custom properties_
