@@ -18,6 +18,9 @@
     "build:tsd": "NODE_ENV=production tsc -p src/tsconfig.prod.json",
     "build": "yarn test:jest && yarn build:js && yarn build:tsd"
   },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pmirau/lib--react-form.git"
