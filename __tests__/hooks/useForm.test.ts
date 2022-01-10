@@ -6,6 +6,7 @@ import {
 import useForm from '../../src/hooks/useForm'
 import { validator } from '../../src/validator'
 import { Form } from '../../src/types'
+import { customMessagesDE } from '../../src/validator/errorMessages'
 
 describe('useForm', () => {
   describe('register()', () => {
@@ -14,12 +15,14 @@ describe('useForm', () => {
       ({ result } = renderHook(() => useForm()))
     })
 
-    it('registers a new field & initializes all default props', () => {
+    it('registers a new field & initializes all default props 1/2', () => {
       act(() => {
         result.current.register('myText')
         result.current.register('myNumber', { type: 'number' })
         result.current.register('myCheckbox', { type: 'checkbox' })
         result.current.register('myCheckboxGroup', { type: 'checkboxGroup' })
+        result.current.register('myRadio', { type: 'radio' })
+        result.current.register('myRadioGroup', { type: 'radioGroup', initialValue: 'button1' })
       })
 
       expect(result.current.form).toMatchObject({
@@ -28,51 +31,103 @@ describe('useForm', () => {
           'myNumber',
           'myCheckbox',
           'myCheckboxGroup',
+          'myRadio',
+          'myRadioGroup',
         ],
         initialValues: {
           myText: '',
           myNumber: '',
           myCheckbox: false,
           myCheckboxGroup: [],
+          myRadio: false,
+          myRadioGroup: 'button1',
         },
         values: {
           myText: '',
           myNumber: '',
           myCheckbox: false,
           myCheckboxGroup: [],
+          myRadio: false,
+          myRadioGroup: 'button1',
         },
         types: {
           myText: 'text',
           myNumber: 'number',
           myCheckbox: 'checkbox',
           myCheckboxGroup: 'checkboxGroup',
+          myRadio: 'radio',
+          myRadioGroup: 'radioGroup',
         },
         touched: {
           myText: false,
           myNumber: false,
           myCheckbox: false,
           myCheckboxGroup: false,
+          myRadio: false,
+          myRadioGroup: false,
         },
         changed: {
           myText: false,
           myNumber: false,
           myCheckbox: false,
           myCheckboxGroup: false,
+          myRadio: false,
+          myRadioGroup: false,
         },
         validators: {
           myText: expect.any(Object),
           myNumber: expect.any(Object),
           myCheckbox: expect.any(Object),
           myCheckboxGroup: expect.any(Object),
+          myRadio: expect.any(Object),
+          myRadioGroup: expect.any(Object),
         },
         errors: {
           myText: null,
           myNumber: null,
           myCheckbox: null,
           myCheckboxGroup: null,
+          myRadio: null,
+          myRadioGroup: null,
         },
         formHasChanged: false,
         formIsValid: true,
+      } as Form)
+    })
+
+    it('registers a new field & initializes all default props 2/2 (requires radioGroup to always have a value)', () => {
+      // Reason is that non-selected radio buttons should not exist, bc bad usability
+      act(() => {
+        result.current.register('myRadioGroup', { type: 'radioGroup' })
+      })
+
+      expect(result.current.form).toMatchObject({
+        keys: [
+          'myRadioGroup',
+        ],
+        initialValues: {
+          myRadioGroup: '',
+        },
+        values: {
+          myRadioGroup: '',
+        },
+        types: {
+          myRadioGroup: 'radioGroup',
+        },
+        touched: {
+          myRadioGroup: false,
+        },
+        changed: {
+          myRadioGroup: false,
+        },
+        validators: {
+          myRadioGroup: expect.any(Object),
+        },
+        errors: {
+          myRadioGroup: customMessagesDE.radioGroupRequired,
+        },
+        formHasChanged: false,
+        formIsValid: false,
       } as Form)
     })
 
@@ -117,6 +172,8 @@ describe('useForm', () => {
       let number;
       let checkbox;
       let checkboxGroup;
+      let radio;
+      let radioGroup;
 
       const sharedProps = {
         error: null,
@@ -130,6 +187,8 @@ describe('useForm', () => {
           type: 'checkboxGroup',
           initialValue: ['checkbox1', 'checkbox2'],
         })
+        radio = result.current.register('myRadio', { type: 'radio' })
+        radioGroup = result.current.register('myRadioGroup', { type: 'radioGroup' })
       })
 
       expect(text).toMatchObject({
@@ -163,6 +222,22 @@ describe('useForm', () => {
         value: ['checkbox1', 'checkbox2'],
         id: 'myCheckboxGroup',
         type: 'checkboxGroup',
+      })
+      expect(radio).toMatchObject({
+        ...sharedProps,
+        onChange: expect.any(Function),
+        onBlur: expect.any(Function),
+        checked: false,
+        id: 'myRadio',
+        type: 'radio',
+      })
+      expect(radioGroup).toMatchObject({
+        ...sharedProps,
+        changeValue: expect.any(Function),
+        touch: expect.any(Function),
+        value: '',
+        id: 'myRadioGroup',
+        type: 'radioGroup',
       })
     })
   })
@@ -357,10 +432,6 @@ describe('useForm', () => {
       act(() => {
         result.current.register('myText')
         result.current.register('myNumber', { type: 'number' })
-        result.current.register('myCheckboxGroup', {
-          type: 'checkboxGroup',
-          initialValues: ['checkbox1', 'checkbox2'],
-        })
       })
 
       act(() => {
@@ -380,6 +451,7 @@ describe('useForm', () => {
     it('updates non-default types correctly', () => {
       act(() => {
         result.current.register('myCheckbox', { type: 'checkbox' })
+        result.current.register('myRadio', { type: 'radio' })
       })
 
       act(() => {
@@ -388,11 +460,14 @@ describe('useForm', () => {
         // aufgerufen).
         // Würde onChange vom obigen register() verwendet werden, dann ist in onChange() immer noch
         // der alte state. Also wo alles leer ist.
-        const { onChange } = result.current.register('myCheckbox', { type: 'checkbox' })
-        onChange({ target: { id: 'myCheckbox', checked: true } })
+        const { onChange: onChangeCheckbox } = result.current.register('myCheckbox', { type: 'checkbox' })
+        const { onChange: onChangeRadio } = result.current.register('myRadio', { type: 'radio' })
+        onChangeCheckbox({ target: { id: 'myCheckbox', checked: true } })
+        onChangeRadio({ target: { id: 'myRadio', checked: true } })
       })
 
       expect(result.current.form.values).toHaveProperty('myCheckbox', true)
+      expect(result.current.form.values).toHaveProperty('myRadio', true)
     })
 
     it('updates non-onChange() (setValue()) types correctly', () => {
@@ -401,12 +476,21 @@ describe('useForm', () => {
           type: 'checkboxGroup',
           initialValues: ['checkbox1', 'checkbox2'],
         })
+        const { changeValue: changeValueRadioGroup } = result.current.register('myRadioGroup', {
+          type: 'radioGroup',
+          initialValues: 'radio1',
+        })
         changeValueCheckboxGroup('myCheckboxGroup', ['checkbox1', 'checkbox3'])
+        changeValueRadioGroup('myRadioGroup', 'radio2')
       })
 
       expect(result.current.form.values).toHaveProperty(
         'myCheckboxGroup',
         ['checkbox1', 'checkbox3'],
+      )
+      expect(result.current.form.values).toHaveProperty(
+        'myRadioGroup',
+        'radio2',
       )
     })
   })

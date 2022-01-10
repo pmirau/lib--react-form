@@ -49,6 +49,14 @@ export const assembleValidator = (schema: Validator, params: ValidationParams): 
   if (params.maxCheckedItems !== undefined) {
     assembledValidator = assembledValidator.concat(customJoi.array().max(params.maxCheckedItems))
   }
+  if (params.radioGroupRequired !== undefined) {
+    if (params.radioGroupRequired) {
+      assembledValidator = assembledValidator.concat(customJoi.string().min(1)
+        .messages({ 'string.empty': customMessagesDE.radioGroupRequired! }))
+    } else {
+      assembledValidator = assembledValidator.concat(customJoi.string().allow(''))
+    }
+  }
 
   return assembledValidator
 }

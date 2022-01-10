@@ -1,6 +1,7 @@
 import Joi, { StringSchema } from 'joi'
 import { Validator } from '../../src/types'
 import { assembleValidator, validateField } from '../../src/validator'
+import { customMessagesDE } from '../../src/validator/errorMessages'
 
 describe('validation', () => {
   it('concats a passed schema with multiple "plain" validators', () => {
@@ -90,6 +91,20 @@ describe('validation', () => {
       expect(validateField(validator, ['a', 'b', 'c'])).toEqual(null)
       expect(validateField(validator, ['a', 'b', 'c', 'd']))
         .toEqual('Bitte wähle maximal 3 Einträge aus')
+    })
+
+    it('radioGroupRequired: a radio button always needs to be selected within a group', () => {
+      const validatorTrue: Validator = assembleValidator(Joi.string(), {
+        radioGroupRequired: true,
+      })
+      const validatorFalse: Validator = assembleValidator(Joi.string(), {
+        radioGroupRequired: false,
+      })
+
+      expect(validateField(validatorTrue, 'button1')).toEqual(null)
+      expect(validateField(validatorTrue, '')).toEqual(customMessagesDE.radioGroupRequired)
+      expect(validateField(validatorFalse, 'button1')).toEqual(null)
+      expect(validateField(validatorFalse, '')).toEqual(null)
     })
   })
 })

@@ -29,4 +29,31 @@ describe('DEFAULT_VALIDATOR', () => {
       expect(error).toBe(null)
     })
   })
+
+  describe('checkboxGroup', () => {
+    const type: InputType = 'checkboxGroup'
+
+    it('is valid with DEFAULT_VALUE', () => {
+      const error = validateField(DEFAULT_VALIDATOR[type], DEFAULT_VALUE[type])
+      expect(error).toBe(null)
+    })
+  })
+
+  describe('radio', () => {
+    const type: InputType = 'radio'
+
+    it('is valid with DEFAULT_VALUE', () => {
+      const error = validateField(DEFAULT_VALIDATOR[type], DEFAULT_VALUE[type])
+      expect(error).toBe(null)
+    })
+  })
+
+  describe('radioGroup', () => {
+    const type: InputType = 'radioGroup'
+
+    it('is valid with DEFAULT_VALUE', () => {
+      const error = validateField(DEFAULT_VALIDATOR[type], DEFAULT_VALUE[type])
+      expect(error).toBe('Bitte treffe eine Auswahl')
+    })
+  })
 })

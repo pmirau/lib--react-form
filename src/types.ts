@@ -26,6 +26,7 @@ export interface ValidationParams {
   checked?: boolean,
   minCheckedItems?: number
   maxCheckedItems?: number
+  radioGroupRequired?: boolean
 }
 
 /**
@@ -36,6 +37,8 @@ export type InputType =
   | 'number'
   | 'checkbox'
   | 'checkboxGroup'
+  | 'radio'
+  | 'radioGroup'
 
 /**
  * Types for input types
@@ -45,6 +48,8 @@ export interface InputValueType {
   number: string
   checkbox: boolean
   checkboxGroup: string[]
+  radio: boolean
+  radioGroup: string
 }
 
 /**
@@ -99,8 +104,19 @@ export interface CheckboxGroupInput extends BasicInput<'checkboxGroup'> {
   }[]
 }
 
+export interface RadioInput extends BasicInput<'radio'> {}
+
+export interface RadioGroupInput extends BasicInput<'radioGroup'> {
+  buttons: {
+    id: string
+    label: string
+  }[]
+}
+
 export type Inputs =
   | TextInput
   | NumberInput
   | CheckboxInput
   | CheckboxGroupInput
+  | RadioInput
+  | RadioGroupInput

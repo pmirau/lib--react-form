@@ -2,7 +2,9 @@ import { LanguageMessages } from 'joi'
 import { ValidationParams } from '../types'
 
 type CustomMessages = {
-  [key in keyof ValidationParams]: { [key: string]: string }
+  [key in keyof Omit<ValidationParams, 'checked'>]: string
+} & {
+  checked: { [key: string]: string }
 }
 
 const messagesDE: LanguageMessages = {
@@ -27,4 +29,5 @@ export const customMessagesDE: CustomMessages = {
     true: 'Dieses Feld muss ausgewählt sein',
     false: 'Dieses Feld darf nicht ausgewählt sein',
   },
+  radioGroupRequired: 'Bitte treffe eine Auswahl',
 }

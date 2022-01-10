@@ -67,6 +67,7 @@ export default function useForm() {
 
     switch (form.types[id] as InputType) {
       case 'checkbox':
+      case 'radio':
         value = event.target.checked
         break
       default:
@@ -132,17 +133,25 @@ export default function useForm() {
 
     switch (type) {
       case 'checkbox':
+      case 'radio':
         return {
           ...sharedReturnProps,
-          checked: value as InputValueType['checkbox'],
+          checked: value as
+            InputValueType[keyof Pick<InputValueType,
+            | 'checkbox'
+            | 'radio'>],
           type,
           onChange,
           onBlur,
         }
       case 'checkboxGroup':
+      case 'radioGroup':
         return {
           ...sharedReturnProps,
-          value: value as InputValueType['checkboxGroup'],
+          value: value as
+            InputValueType[keyof Pick<InputValueType,
+            | 'checkboxGroup'
+            | 'radioGroup'>],
           type,
           changeValue,
           touch,
