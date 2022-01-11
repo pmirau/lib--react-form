@@ -1,0 +1,6 @@
+@use '../../styles/variables';
+
+.radio {
+  display: flex;
+  gap: variables.$checked-gap;
+}

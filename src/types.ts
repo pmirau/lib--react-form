@@ -94,6 +94,8 @@ export interface NumberInput extends BasicInput<'number'> {
 }
 
 export interface CheckboxInput extends BasicInput<'checkbox'> {
+  // TODO Can probably set to optional when updated css is applied to the checkbox component
+  //  (Thus fixing TS workaround in InputOverview.tsx)
   label: string
 }
 

@@ -12,6 +12,8 @@ export interface CheckboxProps {
 }
 
 // TODO Clicks not working without the wrapped label (with htmlFor set) bc of styling
+// TODO Update to new version of https://moderncss.dev
+//  & place label beneath checkbox instead of wrap
 const Checkbox = ({
   id,
   onChange,

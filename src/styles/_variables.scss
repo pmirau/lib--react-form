@@ -4,7 +4,7 @@ $font-size: var(--pm-lrf__font-size);
 
 $border-radius: var(--pm-lrf__border-radius);
 
-$transition: transform 0.1s ease-in 25ms;
+$transition: transform 0.1s ease-in-out 25ms;
 
 $col-error: var(--pm-lrf__col-error);
 $col-text: var(--pm-lrf__col-text);
@@ -27,6 +27,11 @@ $label-mb: var(--pm-lrf__label-mb);
 
 $checkbox-size: var(--pm-lrf__checkbox-size);
 $checkbox-border-radius: var(--pm-lrf__checkbox-border-radius);
+
+$radio-size: var(--pm-lrf__radio-size);
+
+// Between checkbox <-> label & radioButton <-> label
+$checked-gap: .8em;
 
 $textInput-padding: var(--pm-lrf__textInput-padding);
 

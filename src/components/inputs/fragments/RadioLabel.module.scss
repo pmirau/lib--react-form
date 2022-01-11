@@ -1,18 +1,14 @@
 @use '../../../styles/variables';
 
 .label {
-  display: grid;
-  grid-template-columns: min-content auto;
-  grid-gap: variables.$checked-gap;
+  box-sizing: border-box;
+
+  font-family: system-ui, sans-serif;
   font-size: inherit;
   color: variables.$col-text;
 
   &:hover {
     cursor: pointer;
-  }
-
-  &__label {
-    line-height: variables.$checkbox-size;
   }
 
   &__label_isDisabled {
