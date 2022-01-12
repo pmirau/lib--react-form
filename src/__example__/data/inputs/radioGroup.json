@@ -1,0 +1,69 @@
+{
+  "id": "radioGroup",
+  "title": "Radio Group",
+  "inputs": [
+    {
+      "type": "radioGroup",
+      "id": "radioGroup--default",
+      "label": "Default (With Initial Value - Button 2)",
+      "initialValue": "radio--default--button2",
+      "buttons": [
+        {
+          "id": "radio--default--button1",
+          "label": "Button 1"
+        },
+        {
+          "id": "radio--default--button2",
+          "label": "Button 2"
+        },
+        {
+          "id": "radio--default--button3",
+          "label": "Button 3"
+        }
+      ]
+    },
+    {
+      "type": "radioGroup",
+      "id": "radioGroup--with-error",
+      "label": "With Error",
+      "touched": true,
+      "buttons": [
+        {
+          "id": "radio--with-error--button1",
+          "label": "Button 1"
+        },
+        {
+          "id": "radio--with-error--button2",
+          "label": "Button 2"
+        },
+        {
+          "id": "radio--with-error--button3",
+          "label": "Button 3"
+        }
+      ]
+    },
+    {
+      "type": "radioGroup",
+      "id": "radioGroup--with-disabled",
+      "label": "With Disabled",
+      "initialValue": [
+        "radio--with-disabled--button1"
+      ],
+      "disabled": true,
+      "buttons": [
+        {
+          "id": "radio--with-disabled--button1",
+          "label": "Button 1"
+        },
+        {
+          "id": "radio--with-disabled--button2",
+          "label": "Button 2"
+        },
+        {
+          "id": "radio--with-disabled--button3",
+          "label": "Button 3"
+        }
+      ]
+    }
+  ]
+}

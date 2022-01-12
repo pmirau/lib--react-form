@@ -49,6 +49,7 @@ const RadioGroup = ({
       )}
       {buttons.map((button) => (
         <Radio
+          key={button.id}
           id={button.id}
           name={id}
           label={button.label}

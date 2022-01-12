@@ -3,12 +3,14 @@ import textData from '../data/inputs/text.json'
 import numberData from '../data/inputs/number.json'
 import checkboxData from '../data/inputs/checkbox.json'
 import checkboxGroupData from '../data/inputs/checkboxGroup.json'
+import radioGroupData from '../data/inputs/radioGroup.json'
 import { DataInputGroup } from './InputOverview.types'
 import {
   CheckboxGroupInput,
   CheckboxInput,
   NumberInput,
   TextInput,
+  RadioGroupInput,
 } from '../../types'
 import useForm from '../../hooks/useForm'
 import InputSelector from '../../components/inputs/InputSelector'
@@ -22,6 +24,7 @@ const data = [
   numberData as DataInputGroup<NumberInput>,
   checkboxData as DataInputGroup<CheckboxInput>,
   checkboxGroupData as DataInputGroup<CheckboxGroupInput>,
+  radioGroupData as DataInputGroup<RadioGroupInput>,
 ]
 
 const InputOverview = () => {
@@ -55,6 +58,7 @@ const InputOverview = () => {
 
               return (
                 <React.Fragment key={id}>
+                  {/* @ts-ignore - Can't silence TS error */}
                   <InputSelector
                     {...register(id, {
                       type,
