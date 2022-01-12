@@ -33,6 +33,9 @@ $radio-size: var(--pm-lrf__radio-size);
 // Between checkbox <-> label & radioButton <-> label
 $checked-gap: .8em;
 
+$checked-focus-outline: max(.05em, 0.015em) solid $col-border_focus;
+$checked-focus-outline-offset: max(2px, 0.15em);
+
 $textInput-padding: var(--pm-lrf__textInput-padding);
 
 $wrap-mt: var(--pm-lrf__wrap-mt);

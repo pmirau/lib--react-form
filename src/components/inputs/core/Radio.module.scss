@@ -45,8 +45,8 @@
   }
 
   &__input:focus {
-    outline: max(.05em, 0.15em) solid variables.$col-border_focus;
-    outline-offset: max(2px, 0.15em);
+    outline: variables.$checked-focus-outline;
+    outline-offset: variables.$checked-focus-outline-offset;
   }
 
   &__input_disabled {
